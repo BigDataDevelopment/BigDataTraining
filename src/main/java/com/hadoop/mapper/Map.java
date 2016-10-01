@@ -20,7 +20,7 @@ public class Map extends MapReduceBase implements Mapper<LongWritable, Text, Tex
 			throws IOException {
 		String line = value.toString();
 		//
-		line.replace("\"", "");
+		//line.replace("\"", "");
 		StringTokenizer tokenizer = new StringTokenizer(line);
 		while (tokenizer.hasMoreTokens()) {
 			word.set(tokenizer.nextToken());
