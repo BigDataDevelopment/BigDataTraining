@@ -25,12 +25,11 @@ public class WordCount {
 		 	     conf.setMapperClass(Map.class);
 		 	     conf.setCombinerClass(Reduce.class);
 		 	     conf.setReducerClass(Reduce.class);
-		 	     
 
 		 	     conf.setInputFormat(TextInputFormat.class);
 		 	     conf.setOutputFormat(TextOutputFormat.class);
 		 	     //hdfs://localhost:9000/test/abc.txt
-		 	     FileInputFormat.setInputPaths(conf, new Path("textfile.txt"));
+		 	     FileInputFormat.setInputPaths(conf, new Path("dept.txt"));
 	    	     FileOutputFormat.setOutputPath(conf, new Path("output"));
 			
 		 	     JobClient.runJob(conf);

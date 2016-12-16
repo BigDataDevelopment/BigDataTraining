@@ -19,9 +19,9 @@ public class Map extends MapReduceBase implements Mapper<LongWritable, Text, Tex
 	public void map(LongWritable key, Text value, OutputCollector<Text, IntWritable> output, Reporter reporter)
 			throws IOException {
 		String line = value.toString();
-		//
-		//line.replace("\"", "");
-		StringTokenizer tokenizer = new StringTokenizer(line);
+		
+		String linesplit[] = line.split(",");
+		StringTokenizer tokenizer = new StringTokenizer(linesplit[1]);
 		while (tokenizer.hasMoreTokens()) {
 			word.set(tokenizer.nextToken());
 			output.collect(word, one);
