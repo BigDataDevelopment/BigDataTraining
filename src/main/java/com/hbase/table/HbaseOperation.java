@@ -160,7 +160,7 @@ public class HbaseOperation {
 	            HbaseOperation.getAllRecord(tablename);
 	 
 	            System.out.println("===========del one record========");
-	            HbaseOperation.delRecord(tablename, "baoniu");
+	            //HbaseOperation.delRecord(tablename, "baoniu");
 	            HbaseOperation.getAllRecord(tablename);
 	 
 	            System.out.println("===========show all record========");
