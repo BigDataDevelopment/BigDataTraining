@@ -39,7 +39,7 @@ public class HiveJdbcClient {
     String sql1 = "select count(1) from titanic" ;
     System.out.println("Running: " + sql1);
     ResultSet res1 = stmt.executeQuery(sql1);
-    res = stmt.executeQuery(sql1);
+    res1 = stmt.executeQuery(sql1);
     while (res1.next()) {
       System.out.println(res1.getString(1));
     }
