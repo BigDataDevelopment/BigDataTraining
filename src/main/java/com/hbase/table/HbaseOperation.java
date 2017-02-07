@@ -23,7 +23,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 public class HbaseOperation {
 	
-	 private static Configuration conf = HBaseConfiguration.create();;
+	 private static Configuration conf = HBaseConfiguration.create();
 	 
 
 	 /**
@@ -143,7 +143,7 @@ public class HbaseOperation {
 	            String tablename = "scores";
 	            String[] familys = { "grade", "course" };
 	            HbaseOperation.creatTable(tablename, familys);
-	 
+	          
 	            // add record zkb
 	            HbaseOperation.addRecord(tablename, "zkb", "grade", "", "5");
 	            HbaseOperation.addRecord(tablename, "zkb", "course", "", "90");
@@ -160,8 +160,8 @@ public class HbaseOperation {
 	            HbaseOperation.getAllRecord(tablename);
 	 
 	            System.out.println("===========del one record========");
-	            //HbaseOperation.delRecord(tablename, "baoniu");
-	            HbaseOperation.getAllRecord(tablename);
+	            HbaseOperation.delRecord(tablename, "baoniu");
+	            //HbaseOperation.getAllRecord(tablename);
 	 
 	            System.out.println("===========show all record========");
 	            HbaseOperation.getAllRecord(tablename);
