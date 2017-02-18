@@ -1,13 +1,53 @@
 package com.util.json;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class JSONParse {
+	
+	
+	public static void hdfsFileWrite(String HDFSPath, String dataString)
+    {
+        /*HDFS Configuration*/
+        try{
+        Configuration config = new Configuration();
+        //adding local hadoop configuration
+        config.addResource(new Path("/usr/local/hadoop/etc/hadoop/core-site.xml"));
+        config.addResource(new Path("/usr/local/hadoop/etc/hadoop/hdfs-site.xml"));
+       
+        String filename = HDFSPath; //this path is HDFS path
+        Path pt=new Path(filename);
+        FileSystem fs = FileSystem.get(new Configuration(config));
+        BufferedWriter br ;
+        if (fs.exists(pt))
+        {
+        br=new BufferedWriter(new OutputStreamWriter(fs.append(pt)));
+        }
+        else
+        {
+        br=new BufferedWriter(new OutputStreamWriter(fs.create(pt,true)));
+        }
+       
+        br.write(dataString);
+        br.close();
+        }catch(Exception e){
+            System.out.println("File not found:-"+e);
+        }
+    }
+
 
 	public static void main(String[] args) {
 
@@ -26,10 +66,23 @@ public class JSONParse {
 			}
             
 			in.close();
-			System.out.println(output.toString());
+			//System.out.println(output.toString().substring(2).trim());
+			JSONArray jsonarray = new JSONArray(output.toString().substring(2).trim());
+			
+			//System.out.println(jsonobject.toString());
+			for(int i=0;i<jsonarray.length();i++){
+				JSONObject jsonobject = new JSONObject(jsonarray.getString(i));
+				String id = jsonobject.getString("id");
+				System.out.println(id+"--"+jsonobject.getString("t"));
+				String csvrow = id+","+jsonobject.getString("t")+"\n";
+				hdfsFileWrite("/stockdata/stock1.csv", csvrow);
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
