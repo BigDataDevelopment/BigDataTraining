@@ -28,4 +28,13 @@ CREATE EXTERNAL TABLE tweets (
 ROW FORMAT SERDE 'com.cloudera.hive.serde.JSONSerDe'
 LOCATION '/training/flume/tweets';
 
+SELECT word, count(1) AS count FROM
+(SELECT explode(split(text, ' ')) AS word FROM tweets) w where word!=" "
+GROUP BY word
+ORDER BY word limit 10;
+
+select entities.hashtags[0].text as hastag , count(entities.hashtags[0].text) as hcnt from tweets where entities.hashtags[0].text!="NULL" group by entities.hashtags[0].text order by hcnt;
+
+flume-ng agent -n TwitterAgent -c conf -f /usr/local/flume/conf/twitter.conf
+
 
